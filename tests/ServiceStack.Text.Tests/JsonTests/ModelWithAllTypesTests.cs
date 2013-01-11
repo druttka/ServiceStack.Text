@@ -74,5 +74,42 @@ namespace ServiceStack.Text.Tests.JsonTests
             Assert.AreEqual('d', ((ModelWithAllTypes)model["D"]).CharValue);
         }
 
+        [Test]
+        public void Can_Deserialize_InnerDictionary()
+        {
+            var json = "{\"CharValue\":\"c\",\"InnerDictionary\":{\"somekey\":\"somevalue\"}}";
+            var model = JsonSerializer.DeserializeFromString<ModelWithAllTypes>(json);
+
+            Assert.AreEqual("somevalue", model.InnerDictionary["somekey"]);
+        }
+
+        [Test]
+        public void Can_Deserialize_InnerDictionary_With_Comma_Separated_List_As_A_Value()
+        {
+            var json = "{\"CharValue\":\"c\",\"InnerDictionary\":{\"values\":\"value1,value2,value3\"}}";
+            var model = JsonSerializer.DeserializeFromString<ModelWithAllTypes>(json);
+
+            Assert.AreEqual("value1,value2,value3", model.InnerDictionary["values"]);
+        }
+
+        [Test]
+        public void Can_Deserialize_InnerDictionary_With_Url_As_A_Value()
+        {
+            var json = "{\"CharValue\":\"c\",\"InnerDictionary\":{\"url\":\"http://sub.domain.com/services/things\"}}";
+            var model = JsonSerializer.DeserializeFromString<ModelWithAllTypes>(json);
+
+            Assert.AreEqual("http://sub.domain.com/services/things", model.InnerDictionary["url"]);
+        }
+
+        [Test]
+        public void Can_Deserialize_InnerDictionary_With_Multiple_Values()
+        {
+            var json = "{\"CharValue\":\"c\",\"InnerDictionary\":{\"somekey\":\"somevalue\",\"url\":\"http://sub.domain.com/services/things\",\"values\":\"value1,value2,value3\"}}";
+            var model = JsonSerializer.DeserializeFromString<ModelWithAllTypes>(json);
+
+            Assert.AreEqual("value1,value2,value3", model.InnerDictionary["values"]);
+            Assert.AreEqual("somevalue", model.InnerDictionary["somekey"]);
+            Assert.AreEqual("http://sub.domain.com/services/things", model.InnerDictionary["url"]);
+        }
 	}
 }

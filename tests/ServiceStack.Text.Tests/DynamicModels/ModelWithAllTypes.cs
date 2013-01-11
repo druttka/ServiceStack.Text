@@ -1,5 +1,6 @@
 using System;
 using ServiceStack.Text.Tests.DynamicModels.DataModel;
+using System.Collections.Generic;
 
 namespace ServiceStack.Text.Tests.DynamicModels
 {
@@ -43,30 +44,33 @@ namespace ServiceStack.Text.Tests.DynamicModels
 
 		public Guid GuidValue { get; set; }
 
-		public static ModelWithAllTypes Create(byte i)
+        public Dictionary<string, object> InnerDictionary { get; set; }
+
+        public static ModelWithAllTypes Create(byte i)
 		{
-			return new ModelWithAllTypes
-			{
-				ByteValue = i,
-				CharValue = (char)i,
-				CustomException = new CustomException("CustomException " + i),
-				DateTimeValue = new DateTime(i),
-				DecimalValue = i,
-				DoubleValue = i,
-				Exception = new Exception("Exception " + i),
-				FloatValue = i,
-				IntValue = i,
-				LongValue = i,
-				SByteValue = (sbyte)i,
-				ShortValue = i,
-				TimeSpanValue = new TimeSpan(i),
-				TypeValue = typeof(ModelWithAllTypes),
-				UIntValue = i,
-				ULongValue = i,
-				UriValue = new Uri("http://domain.com/" + i),
-				UShortValue = i,
-				GuidValue = Guid.NewGuid(),
-			};
+            return new ModelWithAllTypes
+            {
+                ByteValue = i,
+                CharValue = (char)i,
+                CustomException = new CustomException("CustomException " + i),
+                DateTimeValue = new DateTime(i),
+                DecimalValue = i,
+                DoubleValue = i,
+                Exception = new Exception("Exception " + i),
+                FloatValue = i,
+                IntValue = i,
+                LongValue = i,
+                SByteValue = (sbyte)i,
+                ShortValue = i,
+                TimeSpanValue = new TimeSpan(i),
+                TypeValue = typeof(ModelWithAllTypes),
+                UIntValue = i,
+                ULongValue = i,
+                UriValue = new Uri("http://domain.com/" + i),
+                UShortValue = i,
+                GuidValue = Guid.NewGuid(),
+                InnerDictionary = new Dictionary<string, object> { { i.ToString(), i } },
+            };
 		}
 
 	}
