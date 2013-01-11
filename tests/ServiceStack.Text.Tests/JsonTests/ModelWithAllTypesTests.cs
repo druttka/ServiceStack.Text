@@ -111,5 +111,15 @@ namespace ServiceStack.Text.Tests.JsonTests
             Assert.AreEqual("somevalue", model.InnerDictionary["somekey"]);
             Assert.AreEqual("http://sub.domain.com/services/things", model.InnerDictionary["url"]);
         }
+
+        [Test]
+        public void Can_Deserialize_InnerDictionary_With_Its_Own_Inner_Dictionary()
+        {
+            var json = "{\"InnerDictionary\":{\"inception\":{\"somekey\":\"somevalue\"}}}";
+            var model = JsonSerializer.DeserializeFromString<ModelWithAllTypes>(json);
+
+            Assert.AreEqual("inception", model.InnerDictionary.Keys.ToArray()[0]);
+            Assert.AreEqual("somevalue", ((Dictionary<string,object>)model.InnerDictionary["inception"])["somekey"]);
+        }
 	}
 }
